@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
 
+import com.jpmc.midascore.component.BalanceQuerier;
+
 @SpringBootTest
 @DirtiesContext
 @EmbeddedKafka(partitions = 1, brokerProperties = {"listeners=PLAINTEXT://localhost:9092", "port=9092"})
@@ -23,6 +25,9 @@ public class TaskFourTests {
     @Autowired
     private FileLoader fileLoader;
 
+    @Autowired
+    private BalanceQuerier balanceQuerier;
+
     @Test
     void task_four_verifier() throws InterruptedException {
         userPopulator.populate();
@@ -32,6 +37,12 @@ public class TaskFourTests {
         }
         Thread.sleep(2000);
 
+        // Debug wilbur's balance
+        float wilburBalance = balanceQuerier.getBalanceByName("wilbur");
+        logger.info("----------------------------------------------------------");
+        logger.info("WILBUR'S FINAL BALANCE: {}", wilburBalance);
+        logger.info("WILBUR'S BALANCE ROUNDED DOWN: {}", (int) Math.floor(wilburBalance));
+        logger.info("----------------------------------------------------------");
 
         logger.info("----------------------------------------------------------");
         logger.info("----------------------------------------------------------");

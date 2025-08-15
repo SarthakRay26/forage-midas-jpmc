@@ -44,7 +44,7 @@ general:
   
 # Server Configuration
 server:
-  port: 8080
+  port: 33400
   
 # Logging Configuration
 logging:
@@ -53,3 +53,13 @@ logging:
     org.springframework.kafka: DEBUG
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+---
+# Test Profile Configuration
+spring:
+  config:
+    activate:
+      on-profile: test
+      
+server:
+  port: 0  # Use random available port for tests
